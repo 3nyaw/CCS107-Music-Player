@@ -18,15 +18,15 @@ public class LinkedList {
 	
 	// Adds a new node to the end of the list
 	public void addNode(Node node) {
-	currentNode.setNext(newNode);
-	if (head == null) {
-                head = newNode;
-                currentNode = head;
-            } 
-		else {
-                currentNode.setNext(newNode);
-                currentNode = newNode;
+	  if (head == null) {
+            head = node;
+        } else {
+            Node currentNode = head;
+            while (currentNode.getNext() != null) {
+                currentNode = currentNode.getNext();
             }
+            currentNode.setNext(node);
+        }
 	}
 	
 	// Adds a node at a specific position in the list
