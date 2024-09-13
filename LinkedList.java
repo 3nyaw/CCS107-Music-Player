@@ -13,22 +13,32 @@ public class LinkedList {
 	public void setHead(Node head) {
 		this.head = head;
 	}
+
+	
 	
 	// Adds a new node to the end of the list
 	public void addNode(Node node) {
-
+	currentNode.setNext(newNode);
+	if (head == null) {
+                head = newNode;
+                currentNode = head;
+            } 
+		else {
+                currentNode.setNext(newNode);
+                currentNode = newNode;
+            }
 	}
 	
 	// Adds a node at a specific position in the list
 	public void insertNode(Node node, int position) {
 	    int currentPosition = 1;
 	    Node currentNode = head;
-
+ 	
 	    // Validate position
 
 	    
 	    // Check if the list is empty or inserting at the head
-
+  		
 
 	    // Traverse to the node before the desired position
 
