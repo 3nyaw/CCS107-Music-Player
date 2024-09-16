@@ -1,5 +1,3 @@
-package PrelimLabExam;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -69,7 +67,6 @@ public class Main {
 					System.out.print("Enter the Duration: ");
 					duration = reader.readLine(); // Read song duration
 					list.insertNode(new Node(title, artist, duration), position); // Insert the song at the specified position
-					System.out.println("\nSong successfully inserted.");
 					list.displayList(); // Display the updated playlist
 					break;
 				
@@ -112,7 +109,6 @@ public class Main {
 					// Case 5: Clear the playlist
 					list.clearPlaylist();
 					list.displayList(); // Display the now-empty playlist
-					System.out.println("\nPlaylist successfully cleared.");
 					break;
 				
 				case 0:
