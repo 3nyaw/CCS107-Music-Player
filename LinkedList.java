@@ -1,5 +1,3 @@
-package PrelimLabExam;
-
 public class LinkedList {
 	
 	private Node head; // Head of the linked list
@@ -35,9 +33,10 @@ public class LinkedList {
 	public void insertNode(Node node, int position) {
 	    int currentPosition = 1;
 	    Node currentNode = head;
+	    int size = getSize();
 	    
-	    if(position < 1) { // Validate position
-	        System.out.println("Invalid position.");
+	    if(position < 1 || position > size) { // Validate position
+	        System.out.println("\nInvalid position.");
 	        return;
 	    } else if(head == null) { // Check if the list is empty or inserting at the head
 			System.out.println("\nUnable to insert a song, list is empty.");
@@ -47,22 +46,17 @@ public class LinkedList {
 	        head = node; // Set new node as the new head
 	        return;
 	    }
-
+	    
 	    // Traverse to the node before the desired position
 	    while(currentNode != null && currentPosition < position - 1) {
 	        currentNode = currentNode.getNext();
 	        currentPosition++;
 	    }
-
-	    // Check if the desired position is valid
-	    if(currentNode.getNext() == null) {
-	    	System.out.println("\nPosition out of Bounds.");
-	    	return;
-	    }
 	    
 	    // Insert the new node at the desired position
 	    node.setNext(currentNode.getNext());
 	    currentNode.setNext(node);
+		System.out.println("\nSong successfully inserted.");
 	}
 	
 	// Removes a node from the specified position
@@ -101,10 +95,11 @@ public class LinkedList {
 		System.out.println("\nSong successfully removed.");
 	}
 	
-	
 	// Reorders a node from currentPosition to newPosition
 	public void reorderNode(int currentPosition, int newPosition) {
-		if(currentPosition < 1 || newPosition < 1) { // Validate positions
+		int size = getSize(); // Store size of the list
+
+		if(currentPosition < 1 || newPosition < 1 || currentPosition > size || newPosition > size) { // Validate positions
 			System.out.println("\nInvalid positions.");
 			return;
 		} else if(head == null) { // Check if the list is empty
@@ -113,10 +108,9 @@ public class LinkedList {
 		} else if(head.getNext() == null) { // Check if the playlist has only 1 song
 			System.out.println("\nUnable to reorder song, playlist has only one(1) song.");
 			return;
-		} 
+		}
 		
-		int size = getSize();
-	    // Special Case: Check if the node to be moved is at the head
+	    // Special Case: If the node to be moved is at the head
 	    if (currentPosition == 1) {
 	        Node temp = head; // Store the head node
 	        head = head.getNext(); // Remove the head node
@@ -137,11 +131,11 @@ public class LinkedList {
 	        return;
 	    }
 		
-		// Traverse to the node at currentPosition
+		// Traverse to the node at currentPosition and previousPosition
 		Node currentNode = head;
 		Node previousNode = null;
 		int position = 1;
-		while(currentNode != null && position < currentPosition) {
+		while(currentNode != null && position < currentPosition) { 
 			previousNode = currentNode;
 			currentNode = currentNode.getNext();
 			position++;
@@ -156,22 +150,31 @@ public class LinkedList {
 		// Remove the node from its current position
 		previousNode.setNext(currentNode.getNext());
 
-	    // Handle inserting at the end of the list
-	    if (newPosition == size + 1) { // Check if moving to the end
+	    // Special Case: If node is reordering at the end of the list
+	    if(newPosition == size + 1) { // Check if moving to the end
 	        Node lastNode = head;
-	        while (lastNode.getNext() != null) { // Traverse to the end of the list
+	        while(lastNode.getNext() != null) { // Traverse to the end of the list
 	            lastNode = lastNode.getNext();
 	        }
 	        lastNode.setNext(currentNode); // Insert at the end
 	        currentNode.setNext(null); // Mark the new end
 			System.out.println("\nSong successfully reordered.");
-	    }  else {
-	        // Use insertNode method to insert at the new position
+	    } else { // Use insertNode method to insert at the new position
 	        insertNode(currentNode, newPosition);
 			System.out.println("\nSong successfully reordered.");
 	    }
 	}
 
+	// Clears the linked list content
+	public void clearPlaylist() {
+		if(head == null) {
+			System.out.println("\nUnable to clear the playlist, there are no songs listed.");
+		} else {
+			head = null;
+			System.out.println("\nPlaylist successfully cleared.");
+		}
+	}
+	
 	// Helper function to get the size of the list
 	private int getSize() {
 	    int size = 0;
@@ -181,14 +184,6 @@ public class LinkedList {
 	        current = current.getNext();
 	    }
 	    return size;
-	}
-	
-	// Clears the linked list content
-	public void clearPlaylist() {
-		if(head == null) {
-			System.out.println("Unable to clear the playlist, there are no songs listed.");
-		}
-		head = null;
 	}
 	
 	// Displays the linked list content
