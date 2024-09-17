@@ -1,6 +1,8 @@
+package PrelimLabExam;
+
 public class LinkedList {
 	
-	private Node head; // Head of the linked list
+	private Node head;
 	
 	// Getter method for head node
 	public Node getHead() {
@@ -14,7 +16,7 @@ public class LinkedList {
 	
 	// Adds a new node to the end of the list
 	public void addNode(Node node) {
-		if(head == null) { // If the list is empty, make the new node the head
+		if(head == null) { // Check if the list is empty, make the new node the head
 			head = node;
 		} else {
 			Node currentNode = head;
@@ -29,21 +31,21 @@ public class LinkedList {
 	}
 	
 	
-	// Adds a node at a specific position in the list
+	// Inserts a new node at a specific position in the list
 	public void insertNode(Node node, int position) {
 	    int currentPosition = 1;
 	    Node currentNode = head;
 	    int size = getSize();
 	    
-	    if(position < 1 || position > size) { // Validate position
-	        System.out.println("\nInvalid position.");
-	        return;
-	    } else if(head == null) { // Check if the list is empty or inserting at the head
+	    if(head == null) { // Check if the list is empty
 			System.out.println("\nUnable to insert a song, list is empty.");
 			return;
-		} else if(position == 1) { // Special Case: If the node to be inserted is at the head
-	        node.setNext(head); // Set new node's next to head
-	        head = node; // Set new node as the new head
+		} else if(position < 1 || position > size) { // Validate position
+	        System.out.println("\nInvalid position.");
+	        return;
+	    } else if(position == 1) { // If the node to be inserted is at the head
+	        node.setNext(head);
+	        head = node;
 	        return;
 	    }
 	    
@@ -61,14 +63,16 @@ public class LinkedList {
 	
 	// Removes a node from the specified position
 	public void removeNode(int position) {
+		int size = getSize(); // Store size of the list
+		
 		if(head == null) { // Check if the list is empty
-			System.out.println("\nUnable to add a song, list is empty.");
+			System.out.println("\nUnable to remove a song, list is empty.");
 			return;
-		} else if(position < 1) { // Validate position
+		} else if(position < 1 || position > size) { // Validate position
 	        System.out.println("\nInvalid position.");
 	        return;
-		} else if(position == 1) { // Special Case: If the node to be removed is at the head
-			head = head.getNext(); // remove the head by setting it as its next node
+		} else if(position == 1) { // If the node to be removed is at the head
+			head = head.getNext();
 			System.out.println("\nSong successfully removed.");
 			return;
 		}
@@ -76,18 +80,11 @@ public class LinkedList {
 		Node currentNode = head;
 		Node previousNode = null;
 		int currentPosition = 1;
-
 		// Traverse to the node at the specified position
 		while(currentNode != null && currentPosition < position) {
 			previousNode = currentNode;
 			currentNode = currentNode.getNext();
 			currentPosition++;
-		}
-
-		// Check if the position is valid
-		if(currentNode == null) {
-	        System.out.println("\nPosition out of bounds.");
-			return;
 		}
 		
 		// Remove the node by updating the previous node's next pointer
@@ -110,31 +107,28 @@ public class LinkedList {
 			return;
 		}
 		
-	    // Special Case: If the node to be moved is at the head
+	    // Check if the node to be moved is at the head
 	    if (currentPosition == 1) {
-	        Node temp = head; // Store the head node
-	        head = head.getNext(); // Remove the head node
-
-	        // Handle inserting the head node at the end of the list
-	        if (newPosition == size) { // Move head to the last position
+	        Node temp = head;
+	        head = head.getNext();
+	        if (newPosition == size) { // Check inserting the head node at the end of the list
 	            Node lastNode = head;
 	            while (lastNode.getNext() != null) { // Traverse to the end of the list
 	                lastNode = lastNode.getNext();
 	            }
-	            lastNode.setNext(temp); // Insert at the end
-	            temp.setNext(null); // Mark the new end
-	        } else {
-	            // Insert the node at the specified position
+	            lastNode.setNext(temp);
+	            temp.setNext(null);
+	        } else { // Otherwise, insert the node at the specified position
 	            insertNode(temp, newPosition);
 	        }
 			System.out.println("\nSong successfully reordered.");
 	        return;
 	    }
 		
-		// Traverse to the node at currentPosition and previousPosition
 		Node currentNode = head;
 		Node previousNode = null;
 		int position = 1;
+		// Traverse to the node at currentPosition and previousPosition
 		while(currentNode != null && position < currentPosition) { 
 			previousNode = currentNode;
 			currentNode = currentNode.getNext();
@@ -150,14 +144,14 @@ public class LinkedList {
 		// Remove the node from its current position
 		previousNode.setNext(currentNode.getNext());
 
-	    // Special Case: If node is reordering at the end of the list
-	    if(newPosition == size + 1) { // Check if moving to the end
+	    //Check If node is reordering at the end of the list
+	    if(newPosition == size) {
 	        Node lastNode = head;
 	        while(lastNode.getNext() != null) { // Traverse to the end of the list
 	            lastNode = lastNode.getNext();
 	        }
-	        lastNode.setNext(currentNode); // Insert at the end
-	        currentNode.setNext(null); // Mark the new end
+	        lastNode.setNext(currentNode);
+	        currentNode.setNext(null);
 			System.out.println("\nSong successfully reordered.");
 	    } else { // Use insertNode method to insert at the new position
 	        insertNode(currentNode, newPosition);
@@ -166,10 +160,10 @@ public class LinkedList {
 	}
 
 	// Clears the linked list content
-	public void clearPlaylist() {
-		if(head == null) {
+	public void clearList() {
+		if(head == null) { // Check if the list is empty
 			System.out.println("\nUnable to clear the playlist, there are no songs listed.");
-		} else {
+		} else { // Otherwise, clear
 			head = null;
 			System.out.println("\nPlaylist successfully cleared.");
 		}
@@ -179,7 +173,8 @@ public class LinkedList {
 	private int getSize() {
 	    int size = 0;
 	    Node current = head;
-	    while (current != null) {
+	    // Traverse to the end of the list to count
+	    while (current != null) { 
 	        size++;
 	        current = current.getNext();
 	    }
@@ -202,4 +197,5 @@ public class LinkedList {
 		}
 		System.out.println("+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+");
 	}
+	
 }

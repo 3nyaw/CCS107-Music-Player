@@ -1,3 +1,5 @@
+package PrelimLabExam;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -5,8 +7,6 @@ import java.io.InputStreamReader;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-
-		// BufferedReader for reading user input
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		LinkedList list = new LinkedList(); // Create an instance of the LinkedList
 
@@ -25,100 +25,96 @@ public class Main {
 					+ "\n{ [0] Exit               }"
 					+ "\n+------------------------+");
 			System.out.print("\nWhat would you like to do? ");
-			String input = reader.readLine(); // Read user input for menu selection
+			String input = reader.readLine();
 			if(!isValidNumber(input)) { // Checks if the input is not a number
 				System.out.println("\nInvalid input. Try again.");
 				continue;
 			}
 			int command = Integer.parseInt(input);
 			
-			String title, artist, duration; // Variables to store song details
+			String title, artist, duration; 
 			
 			// Switch statement to handle different menu options
 			switch(command) {
-				case 1:
-					// Case 1: Add a new song to the list
+				case 1: // Add a new song at the end of the playlist
 					System.out.println("\nAdd a Song");
 					System.out.print("Enter the Title: ");
-					title = reader.readLine(); // Read song title
+					title = reader.readLine();
 					System.out.print("Enter the Artist: ");
-					artist = reader.readLine(); // Read artist name
+					artist = reader.readLine();
 					System.out.print("Enter the Duration: ");
-					duration = reader.readLine(); // Read song duration
-					list.addNode(new Node(title, artist, duration)); // Add the new song to the list
-					list.displayList(); // Display the updated playlist
+					duration = reader.readLine();
+					list.addNode(new Node(title, artist, duration)); // Call addNode method to add a song
+					list.displayList();
 					break;
 				
-				case 2:
-					// Case 2: Insert a song at a specific position
-					int position; // Variable for song position
+				case 2: // Insert a song at a specific position
+					int position;
 					System.out.println("\nInsert a Song");
 					System.out.print("Enter position: ");
-					input = reader.readLine(); // Read the desired position
-					if(!isValidNumber(input)) { // Checks if the input is not a number
+					input = reader.readLine();
+					if(!isValidNumber(input)) {
 						System.out.println("\nInvalid input. Try again.");
 						break;
 					}
 					position = Integer.parseInt(input);
 					System.out.print("Enter the Title: ");
-					title = reader.readLine(); // Read song title
+					title = reader.readLine();
 					System.out.print("Enter the Artist: ");
-					artist = reader.readLine(); // Read artist name
+					artist = reader.readLine();
 					System.out.print("Enter the Duration: ");
-					duration = reader.readLine(); // Read song duration
-					list.insertNode(new Node(title, artist, duration), position); // Insert the song at the specified position
-					list.displayList(); // Display the updated playlist
+					duration = reader.readLine();
+					list.insertNode(new Node(title, artist, duration), position); // Call insertNode method to insert a song
+					list.displayList();
 					break;
 				
-				case 3:
-					// Case 3: Remove a song from a specific position
+				case 3: // Remove a song from a specific position
 					System.out.println("\nRemove a Song");
 					System.out.print("Enter the position: ");
 					input = reader.readLine();
-					if(!isValidNumber(input)) { // Checks if the input is not a number
+					if(!isValidNumber(input)) {
 						System.out.println("\nInvalid input. Try again.");
 						continue;
 					}
 					position = Integer.parseInt(input);
-					list.removeNode(position); // Read the position and remove the song
-					list.displayList(); // Display the updated playlist
+					list.removeNode(position); // Call removeNode method to remove a song from the list
+					list.displayList();
 					break;
 				
-				case 4:
-					// Case 4: Reorder a song from one position to another
+				case 4: // Reorder a song from one position to another
 					System.out.println("\nReorder a Song");
 					System.out.print("Enter the current position: ");
 					input = reader.readLine();
-					if(!isValidNumber(input)) { // Checks if the input is not a number
+					if(!isValidNumber(input)) {
 						System.out.println("\nInvalid input. Try again.");
 						break;
 					}
-					int currentPosition = Integer.parseInt(input); // Read the current position
+					int currentPosition = Integer.parseInt(input);
 					System.out.print("Enter the new position: ");
 					input = reader.readLine();
-					if(!isValidNumber(input)) { // Checks if the input is not a number
+					if(!isValidNumber(input)) {
 						System.out.println("\nInvalid input. Try again.");
 						break;
 					}
-					int newPosition = Integer.parseInt(input); // Read the new position
-					list.reorderNode(currentPosition, newPosition); // Reorder the song in the list
-					list.displayList(); // Display the updated playlist
+					int newPosition = Integer.parseInt(input);
+					list.reorderNode(currentPosition, newPosition); // Call reorderNode method to reorder the song in the list
+					list.displayList();
 					break;
 				
-				case 5:
-					// Case 5: Clear the playlist
-					list.clearPlaylist();
-					list.displayList(); // Display the now-empty playlist
+				case 5: // Clear the playlist
+					list.clearList(); // Call clearList to clear the playlist
+					list.displayList();
 					break;
 				
-				case 0:
-					// Case 0: Exit the program
+				case 0: // Exit the program
 					System.out.println("Exiting program...");
-					list.displayList(); // Display the final playlist before exit
+					list.displayList(); // Call displayList to display the final playlist before exit
 					break;
+				default:
+					System.out.println("Invalid input.");
 			}
 
-			// Exit condition: if user inputs 0, break the loop and exit the program
+			// Exit if user inputs 0
 			if(command != 0) {
 				continue;
 			} else {
@@ -127,6 +123,7 @@ public class Main {
 		}
 	}
 	
+	// Check if the input is a number
 	private static boolean isValidNumber(String input) {
 	    if(input == null) {
 	        return false;
@@ -134,10 +131,10 @@ public class Main {
 	    int startIndex = 0;
 	    // Check if the first character is a minus sign for negative numbers
 	    if(input.charAt(0) == '-') {
-	        if (input.length() == 1) { // If the string is just "-", it's not a valid number
+	        if (input.length() == 1) {
 	            return false;
 	        }
-	        startIndex = 1; // Start checking the rest of the string after the minus sign
+	        startIndex = 1;
 	    }
 	    // Check that the rest of the characters are digits
 	    for(int i = startIndex; i < input.length(); i++) {
@@ -146,6 +143,7 @@ public class Main {
 	            return false;
 	        }
 	    }
-	    return true; // If all checks pass, the input is a valid integer
+	    return true;
 	}
+	
 }
