@@ -95,7 +95,6 @@ public class LinkedList {
 	// Reorders a node from currentPosition to newPosition
 	public void reorderNode(int currentPosition, int newPosition) {
 		int size = getSize(); // Store size of the list
-
 		if(currentPosition < 1 || newPosition < 1 || currentPosition > size || newPosition > size) { // Validate positions
 			System.out.println("\nInvalid positions.");
 			return;
@@ -144,8 +143,7 @@ public class LinkedList {
 		// Remove the node from its current position
 		previousNode.setNext(currentNode.getNext());
 
-	    //Check If node is reordering at the end of the list
-	    if(newPosition == size) {
+	    if(newPosition == size) { // Check If node is reordering at the end of the list
 	        Node lastNode = head;
 	        while(lastNode.getNext() != null) { // Traverse to the end of the list
 	            lastNode = lastNode.getNext();
@@ -153,7 +151,7 @@ public class LinkedList {
 	        lastNode.setNext(currentNode);
 	        currentNode.setNext(null);
 			System.out.println("\nSong successfully reordered.");
-	    } else { // Use insertNode method to insert at the new position
+	    } else { // Otherwise, use insertNode method to insert at the new position
 	        insertNode(currentNode, newPosition);
 			System.out.println("\nSong successfully reordered.");
 	    }
